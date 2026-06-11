@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#450e71" />
+      <stop offset="50%" stop-color="#3d1e92" />
+      <stop offset="100%" stop-color="#2a3fbc" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="300" height="300" fill="url(#bg)" />
+  
+  <!-- Heart Symbol -->
+  <path d="M150,210 C150,210 75,160 75,110 C75,75 105,50 135,50 C150,50 150,70 150,70 C150,70 150,50 165,50 C195,50 225,75 225,110 C225,160 150,210 150,210 Z" fill="#ffffff" />
+  
+  <!-- Text Overlay -->
+  <text x="150" y="265" text-anchor="middle" font-family="'Montserrat', sans-serif" font-weight="900" font-size="20" fill="#ffffff" letter-spacing="2">LIKED SONGS</text>
+</svg>

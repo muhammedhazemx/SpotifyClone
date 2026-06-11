@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0d0b21" />
+      <stop offset="100%" stop-color="#2c1654" />
+    </linearGradient>
+    <linearGradient id="sun" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ff007f" />
+      <stop offset="50%" stop-color="#ff5e00" />
+      <stop offset="100%" stop-color="#ffeb3b" />
+    </linearGradient>
+    <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#ff007f" stroke-width="1.5" stroke-opacity="0.4" />
+    </pattern>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="300" height="300" fill="url(#bg)" />
+  
+  <!-- Grid -->
+  <rect width="300" height="300" fill="url(#grid)" />
+  
+  <!-- Retro Sun -->
+  <circle cx="150" cy="130" r="65" fill="url(#sun)" />
+  
+  <!-- Sun slices (retro wave style) -->
+  <g fill="#0d0b21">
+    <rect x="80" y="115" width="140" height="3" />
+    <rect x="80" y="125" width="140" height="4" />
+    <rect x="80" y="137" width="140" height="5" />
+    <rect x="80" y="151" width="140" height="6" />
+    <rect x="80" y="167" width="140" height="8" />
+    <rect x="80" y="185" width="140" height="10" />
+  </g>
+  
+  <!-- Perspective Mountains / Triangles -->
+  <polygon points="0,300 100,200 150,300" fill="#1b0e3d" stroke="#ff007f" stroke-width="1" stroke-opacity="0.6" />
+  <polygon points="120,300 200,180 300,300" fill="#150930" stroke="#ff007f" stroke-width="1" stroke-opacity="0.6" />
+  <polygon points="200,300 250,220 300,300" fill="#1b0e3d" stroke="#ff007f" stroke-width="1" stroke-opacity="0.6" />
+
+  <!-- Text Overlay -->
+  <text x="150" y="270" text-anchor="middle" font-family="'Montserrat', sans-serif" font-weight="900" font-size="20" fill="#00ffff" letter-spacing="4" filter="drop-shadow(0px 0px 4px #00ffff)">SYNTHWAVE</text>
+</svg>

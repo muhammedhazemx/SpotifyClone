@@ -1,0 +1,27 @@
+import React from 'react';
+
+interface SpotifyLogoProps extends React.SVGProps<SVGSVGElement> {
+  showText?: boolean;
+}
+
+export const SpotifyLogo: React.FC<SpotifyLogoProps> = ({ showText = true, className, ...props }) => {
+  return (
+    <div className={`flex items-center gap-2 ${className || ''}`}>
+      {/* Spotify Icon */}
+      <svg
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        className="w-10 h-10 text-spotify-green flex-shrink-0"
+        {...props}
+      >
+        <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.586 14.424c-.18.295-.565.387-.86.207-2.377-1.454-5.37-1.783-8.892-.982-.336.076-.67-.135-.746-.472-.076-.336.135-.67.472-.746 3.856-.88 7.15-.502 9.82 1.134.294.18.388.565.206.86zm1.225-2.72c-.226.367-.707.487-1.074.26-2.72-1.672-6.87-2.157-10.082-1.182-.413.125-.847-.107-.972-.52-.125-.413.107-.847.52-.972 3.676-1.114 8.243-.574 11.35 1.335.366.226.486.707.258 1.08zm.106-2.833C14.484 8.718 8.76 8.528 5.432 9.537c-.51.155-1.04-.135-1.196-.646-.156-.51.135-1.04.646-1.196 3.824-1.16 10.15-.94 14.12 1.417.46.273.61.87.337 1.33-.274.46-.87.61-1.33.337z" />
+      </svg>
+      {/* Spotify Wordmark */}
+      {showText && (
+        <span className="font-sans font-black tracking-tighter text-2xl text-spotify-text">
+          Spotify
+        </span>
+      )}
+    </div>
+  );
+};
