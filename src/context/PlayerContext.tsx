@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useRef, type ReactNode } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import type { Track } from '../types/track';
 import type { Playlist } from '../types/playlist';
 import { mockPlaylists } from '../data/playlists';
@@ -84,9 +84,9 @@ export const PlayerProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     localStorage.setItem('spotify_liked_songs', JSON.stringify(likedTrackIds));
   }, [likedTrackIds]);
 
-  const getLikedTracks = (): Track[] => {
+  const getLikedTracks = useCallback((): Track[] => {
     return mockTracks.filter((track) => likedTrackIds.includes(track.id));
-  };
+  }, [likedTrackIds]);
 
   // 2. User Playlists state
   const [userPlaylists, setUserPlaylists] = useState<Playlist[]>(() => {
@@ -103,25 +103,16 @@ export const PlayerProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   }, [userPlaylists]);
 
   // Combine static and dynamic playlists
-  const allPlaylists = [...mockPlaylists, ...userPlaylists];
+  const allPlaylists = useMemo(() => [...mockPlaylists, ...userPlaylists], [userPlaylists]);
 
   // 3. Current Active viewed playlist state
   const [activePlaylistId, setActivePlaylistId] = useState<string>('playlist-1');
-  const [currentPlaylist, setCurrentPlaylist] = useState<Playlist>(() => {
-    return mockPlaylists.find(p => p.id === 'playlist-1') || mockPlaylists[0];
-  });
-
-  // Sync currentPlaylist when liked songs or active playlist changes
-  useEffect(() => {
+  const currentPlaylist = useMemo(() => {
     if (activePlaylistId === 'liked') {
-      setCurrentPlaylist(createLikedPlaylist(getLikedTracks()));
-    } else {
-      const playlist = allPlaylists.find(p => p.id === activePlaylistId);
-      if (playlist) {
-        setCurrentPlaylist(playlist);
-      }
+      return createLikedPlaylist(getLikedTracks());
     }
-  }, [activePlaylistId, likedTrackIds, userPlaylists]);
+    return allPlaylists.find(p => p.id === activePlaylistId) || mockPlaylists[0];
+  }, [activePlaylistId, allPlaylists, getLikedTracks]);
 
   // 4. Audio / Playback state
   const [currentTrack, setCurrentTrack] = useState<Track | null>(() => {
@@ -167,39 +158,11 @@ export const PlayerProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     track.album.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  // Playback timer simulation
-  useEffect(() => {
-    if (isPlaying && currentTrack) {
-      progressInterval.current = setInterval(() => {
-        setProgressState((prev) => {
-          if (prev >= currentTrack.duration) {
-            clearInterval(progressInterval.current!);
-            setTimeout(() => {
-              nextTrack();
-            }, 500);
-            return currentTrack.duration;
-          }
-          return prev + 1;
-        });
-      }, 1000);
-    } else {
-      if (progressInterval.current) {
-        clearInterval(progressInterval.current);
-      }
-    }
-
-    return () => {
-      if (progressInterval.current) {
-        clearInterval(progressInterval.current);
-      }
-    };
-  }, [isPlaying, currentTrack, playingTracks, isShuffle, isRepeat]);
-
   // Playlist management actions
-  const selectPlaylist = (id: string) => {
+  const selectPlaylist = useCallback((id: string) => {
     setSearchQuery('');
     setActivePlaylistId(id);
-  };
+  }, []);
 
   const createPlaylist = (): string => {
     const nextNum = userPlaylists.length + 1;
@@ -250,7 +213,7 @@ export const PlayerProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   };
 
   // Playback actions
-  const playTrack = (track: Track, tracksContext: Track[], playlistId?: string) => {
+  const playTrack = useCallback((track: Track, tracksContext: Track[], playlistId?: string) => {
     setCurrentTrack(track);
     setPlayingTracks(tracksContext);
     if (playlistId) {
@@ -258,14 +221,14 @@ export const PlayerProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     }
     setProgressState(0);
     setIsPlaying(true);
-  };
+  }, []);
 
-  const playPlaylist = (playlist: Playlist) => {
+  const playPlaylist = useCallback((playlist: Playlist) => {
     const listTracks = playlist.id === 'liked' ? getLikedTracks() : playlist.tracks;
     if (listTracks.length > 0) {
       playTrack(listTracks[0], listTracks, playlist.id);
     }
-  };
+  }, [getLikedTracks, playTrack]);
 
   const togglePlay = () => {
     if (!currentTrack && playingTracks.length > 0) {
@@ -275,7 +238,7 @@ export const PlayerProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     }
   };
 
-  const nextTrack = () => {
+  const nextTrack = useCallback(() => {
     if (!currentTrack || playingTracks.length === 0) return;
 
     if (isRepeat) {
@@ -283,20 +246,19 @@ export const PlayerProvider: React.FC<{ children: ReactNode }> = ({ children }) 
       return;
     }
 
-    let nextIdx = 0;
-    if (isShuffle) {
-      nextIdx = Math.floor(Math.random() * playingTracks.length);
-    } else {
+    const nextIdx = isShuffle
+      ? Math.floor(Math.random() * playingTracks.length)
+      : (() => {
       const currentIdx = playingTracks.findIndex((t) => t.id === currentTrack.id);
-      nextIdx = (currentIdx + 1) % playingTracks.length;
-    }
+      return (currentIdx + 1) % playingTracks.length;
+    })();
 
     setCurrentTrack(playingTracks[nextIdx]);
     setProgressState(0);
     setIsPlaying(true);
-  };
+  }, [currentTrack, isRepeat, isShuffle, playingTracks]);
 
-  const prevTrack = () => {
+  const prevTrack = useCallback(() => {
     if (!currentTrack || playingTracks.length === 0) return;
 
     if (progress > 3) {
@@ -304,21 +266,43 @@ export const PlayerProvider: React.FC<{ children: ReactNode }> = ({ children }) 
       return;
     }
 
-    let prevIdx = 0;
-    if (isShuffle) {
-      prevIdx = Math.floor(Math.random() * playingTracks.length);
-    } else {
+    const prevIdx = isShuffle
+      ? Math.floor(Math.random() * playingTracks.length)
+      : (() => {
       const currentIdx = playingTracks.findIndex((t) => t.id === currentTrack.id);
-      prevIdx = currentIdx - 1;
-      if (prevIdx < 0) {
-        prevIdx = playingTracks.length - 1;
-      }
-    }
+      return currentIdx > 0 ? currentIdx - 1 : playingTracks.length - 1;
+    })();
 
     setCurrentTrack(playingTracks[prevIdx]);
     setProgressState(0);
     setIsPlaying(true);
-  };
+  }, [currentTrack, isShuffle, playingTracks, progress]);
+
+  // Playback timer simulation
+  useEffect(() => {
+    if (isPlaying && currentTrack) {
+      progressInterval.current = setInterval(() => {
+        setProgressState((prev) => {
+          if (prev >= currentTrack.duration) {
+            if (progressInterval.current) {
+              clearInterval(progressInterval.current);
+            }
+            setTimeout(nextTrack, 500);
+            return currentTrack.duration;
+          }
+          return prev + 1;
+        });
+      }, 1000);
+    } else if (progressInterval.current) {
+      clearInterval(progressInterval.current);
+    }
+
+    return () => {
+      if (progressInterval.current) {
+        clearInterval(progressInterval.current);
+      }
+    };
+  }, [isPlaying, currentTrack, nextTrack]);
 
   const setProgress = (seconds: number) => {
     if (!currentTrack) return;

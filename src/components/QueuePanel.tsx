@@ -2,6 +2,7 @@ import React from 'react';
 import { usePlayer } from '../hooks/usePlayer';
 import { X, Play, Music } from 'lucide-react';
 import { formatTime } from '../lib/format';
+import type { Track } from '../types/track';
 
 export const QueuePanel: React.FC = () => {
   const {
@@ -18,13 +19,13 @@ export const QueuePanel: React.FC = () => {
   const currentIdx = currentTrack ? playingTracks.findIndex((t) => t.id === currentTrack.id) : -1;
   const nextUpTracks = currentIdx !== -1 ? playingTracks.slice(currentIdx + 1) : [];
 
-  const handleTrackClick = (track: any) => {
+  const handleTrackClick = (track: Track) => {
     playTrack(track, playingTracks);
   };
 
   return (
     <aside
-      className="w-[280px] md:w-[320px] h-full bg-spotify-surface rounded-lg flex flex-col overflow-hidden border border-spotify-border m-2 ml-0 flex-shrink-0 z-10 theme-transition"
+      className="hidden xl:flex w-[320px] h-full bg-spotify-surface rounded-lg flex-col overflow-hidden border border-spotify-border m-2 ml-0 flex-shrink-0 z-10 theme-transition"
       role="complementary"
       aria-label="Play Queue"
     >

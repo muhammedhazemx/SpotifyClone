@@ -15,11 +15,11 @@ export const TransportControls: React.FC = () => {
   } = usePlayer();
 
   return (
-    <div className="flex items-center gap-5 justify-center">
+    <div className="flex items-center justify-center gap-1 sm:gap-3 lg:gap-5">
       {/* Shuffle Button */}
       <button
         onClick={toggleShuffle}
-        className={`relative p-2 rounded-full hover:scale-105 active:scale-95 transition-all focus:outline-none focus:text-white ${
+        className={`relative hidden min-h-11 min-w-11 rounded-full transition-all hover:scale-105 active:scale-95 focus:outline-none focus:text-white sm:flex sm:items-center sm:justify-center ${
           isShuffle ? 'text-spotify-green hover:text-[#1fdf64]' : 'text-spotify-muted hover:text-spotify-text'
         }`}
         aria-label="Toggle Shuffle"
@@ -34,7 +34,7 @@ export const TransportControls: React.FC = () => {
       {/* Previous Track Button */}
       <button
         onClick={prevTrack}
-        className="p-2 text-spotify-muted hover:text-spotify-text rounded-full hover:scale-105 active:scale-95 transition-all focus:outline-none"
+        className="flex min-h-11 min-w-11 items-center justify-center rounded-full text-spotify-muted transition-all hover:scale-105 hover:text-spotify-text active:scale-95 focus:outline-none focus:ring-1 focus:ring-spotify-green"
         aria-label="Previous track"
       >
         <SkipBack className="w-5 h-5 fill-current" />
@@ -43,7 +43,7 @@ export const TransportControls: React.FC = () => {
       {/* Play/Pause Circle Button */}
       <button
         onClick={togglePlay}
-        className="w-8 h-8 rounded-full bg-spotify-text hover:bg-white text-spotify-black flex items-center justify-center hover:scale-105 active:scale-95 transition-all focus:outline-none focus:ring-2 focus:ring-spotify-green"
+        className="flex h-11 w-11 items-center justify-center rounded-full bg-spotify-text text-spotify-black transition-all hover:scale-105 hover:bg-white active:scale-95 focus:outline-none focus:ring-2 focus:ring-spotify-green sm:h-9 sm:w-9"
         aria-label={isPlaying ? 'Pause' : 'Play'}
       >
         {isPlaying ? (
@@ -56,7 +56,7 @@ export const TransportControls: React.FC = () => {
       {/* Next Track Button */}
       <button
         onClick={nextTrack}
-        className="p-2 text-spotify-muted hover:text-spotify-text rounded-full hover:scale-105 active:scale-95 transition-all focus:outline-none"
+        className="flex min-h-11 min-w-11 items-center justify-center rounded-full text-spotify-muted transition-all hover:scale-105 hover:text-spotify-text active:scale-95 focus:outline-none focus:ring-1 focus:ring-spotify-green"
         aria-label="Next track"
       >
         <SkipForward className="w-5 h-5 fill-current" />
@@ -65,7 +65,7 @@ export const TransportControls: React.FC = () => {
       {/* Repeat Button */}
       <button
         onClick={toggleRepeat}
-        className={`relative p-2 rounded-full hover:scale-105 active:scale-95 transition-all focus:outline-none focus:text-white ${
+        className={`relative hidden min-h-11 min-w-11 rounded-full transition-all hover:scale-105 active:scale-95 focus:outline-none focus:text-white sm:flex sm:items-center sm:justify-center ${
           isRepeat ? 'text-spotify-green hover:text-[#1fdf64]' : 'text-spotify-muted hover:text-spotify-text'
         }`}
         aria-label="Toggle Repeat"

@@ -71,14 +71,14 @@ Object.defineProperty(window, 'history', {
         window.dispatchEvent(new PopStateEvent('popstate'));
       }
     },
-    pushState: (state: any, title: string, url: string) => {
+    pushState: (_state: unknown, _title: string, url: string) => {
       historyStack = historyStack.slice(0, historyPointer + 1);
       historyStack.push(url);
       historyPointer++;
       currentPath = url;
       window.dispatchEvent(new PopStateEvent('popstate'));
     },
-    replaceState: (state: any, title: string, url: string) => {
+    replaceState: (_state: unknown, _title: string, url: string) => {
       historyStack[historyPointer] = url;
       currentPath = url;
       window.dispatchEvent(new PopStateEvent('popstate'));

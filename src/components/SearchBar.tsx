@@ -34,7 +34,7 @@ export const SearchBar: React.FC = () => {
   };
 
   return (
-    <div className="relative w-full max-w-xs md:max-w-sm">
+    <div className="relative w-full min-w-0 max-w-full sm:max-w-xs md:max-w-sm">
       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
         <Search className="h-4 w-4 text-spotify-muted" />
       </div>
@@ -43,13 +43,13 @@ export const SearchBar: React.FC = () => {
         value={value}
         onChange={handleChange}
         placeholder={isGlobalSearch ? "What do you want to listen to?" : "Search in playlist..."}
-        className="w-full pl-9 pr-8 py-2 bg-spotify-surface hover:bg-spotify-surfaceHover border border-spotify-border text-spotify-text placeholder-spotify-muted rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-spotify-green focus:border-transparent transition-all duration-200 theme-transition"
+        className="min-h-11 w-full rounded-full border border-spotify-border bg-spotify-surface py-2 pl-9 pr-8 text-sm text-spotify-text placeholder-spotify-muted transition-all duration-200 hover:bg-spotify-surfaceHover focus:border-transparent focus:outline-none focus:ring-2 focus:ring-spotify-green theme-transition"
         aria-label={isGlobalSearch ? "Search all tracks and playlists" : "Search tracks in current playlist"}
       />
       {value && (
         <button
           onClick={handleClear}
-          className="absolute inset-y-0 right-0 pr-3 flex items-center text-spotify-muted hover:text-spotify-text focus:outline-none"
+          className="absolute inset-y-0 right-0 flex min-w-11 items-center justify-center text-spotify-muted hover:text-spotify-text focus:outline-none"
           aria-label="Clear search input"
         >
           <X className="h-4 w-4" />

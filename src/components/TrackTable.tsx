@@ -25,17 +25,17 @@ export const TrackTable: React.FC = () => {
   }
 
   return (
-    <div className="px-6 md:px-8 pb-10">
-      <table className="w-full border-collapse table-fixed text-left text-spotify-muted" role="grid" aria-label="Playlist tracks">
+    <div className="px-2 pb-8 sm:px-4 md:px-8 md:pb-10">
+      <table className="w-full min-w-0 table-fixed border-collapse text-left text-spotify-muted" role="grid" aria-label="Playlist tracks">
         <thead>
           <tr className="border-b border-spotify-border text-xs font-bold uppercase tracking-wider h-9 select-none">
-            <th className="w-12 text-center" scope="col">#</th>
+            <th className="w-10 text-center sm:w-12" scope="col">#</th>
             <th className="" scope="col">Title</th>
             <th className="hidden md:table-cell w-[25%] lg:w-[28%]" scope="col">Album</th>
             <th className="hidden lg:table-cell w-[18%]" scope="col">Date added</th>
-            <th className="w-12" scope="col"></th>
-            <th className="w-12" scope="col"></th>
-            <th className="w-16 text-right pr-4" scope="col">
+            <th className="w-11 sm:w-12" scope="col"></th>
+            <th className="w-11 sm:w-12" scope="col"></th>
+            <th className="w-14 pr-2 text-right sm:w-16 sm:pr-4" scope="col">
               <Clock className="w-4 h-4 inline-block align-middle" aria-label="Duration" />
             </th>
           </tr>

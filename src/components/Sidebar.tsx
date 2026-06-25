@@ -21,7 +21,7 @@ export const Sidebar: React.FC = () => {
   const isLikedActive = location.pathname === '/playlist/liked';
 
   return (
-    <aside className="w-sidebar h-full flex flex-col gap-2 p-2 bg-spotify-black select-none text-spotify-text flex-shrink-0">
+    <aside className="hidden lg:flex w-sidebar h-full flex-col gap-2 p-2 bg-spotify-black select-none text-spotify-text flex-shrink-0">
       {/* Top Navigation Panel */}
       <div className="bg-spotify-surface rounded-lg p-5 flex flex-col gap-4 border border-spotify-border theme-transition">
         {/* Spotify Logo */}
@@ -104,5 +104,70 @@ export const Sidebar: React.FC = () => {
         <PlaylistList />
       </div>
     </aside>
+  );
+};
+
+export const MobileNav: React.FC = () => {
+  const { likedTrackIds, createPlaylist } = usePlayer();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleCreatePlaylist = () => {
+    const newPlaylistId = createPlaylist();
+    navigate(`/playlist/${newPlaylistId}`);
+  };
+
+  const items = [
+    {
+      name: 'Home',
+      icon: <Home className="w-5 h-5" />,
+      active: location.pathname === '/',
+      onClick: () => navigate('/'),
+    },
+    {
+      name: 'Search',
+      icon: <Search className="w-5 h-5" />,
+      active: location.pathname === '/search',
+      onClick: () => navigate('/search'),
+    },
+    {
+      name: 'Liked',
+      icon: <Heart className="w-5 h-5" />,
+      active: location.pathname === '/playlist/liked',
+      onClick: () => navigate('/playlist/liked'),
+      badge: likedTrackIds.length,
+    },
+    {
+      name: 'Create',
+      icon: <Plus className="w-5 h-5" />,
+      active: false,
+      onClick: handleCreatePlaylist,
+    },
+  ];
+
+  return (
+    <nav className="lg:hidden bg-spotify-card border-t border-spotify-border px-2 py-1.5 text-spotify-muted select-none theme-transition">
+      <div className="grid grid-cols-4 gap-1">
+        {items.map((item) => (
+          <button
+            key={item.name}
+            onClick={item.onClick}
+            className={`relative min-h-11 rounded-md flex flex-col items-center justify-center gap-0.5 text-[10px] font-bold transition-colors focus:outline-none focus:ring-1 focus:ring-spotify-green ${
+              item.active ? 'text-spotify-green bg-spotify-surfaceHover/70' : 'hover:text-spotify-text'
+            }`}
+            aria-label={item.name}
+            aria-current={item.active ? 'page' : undefined}
+          >
+            {item.icon}
+            <span>{item.name}</span>
+            {typeof item.badge === 'number' && item.badge > 0 && (
+              <span className="absolute right-3 top-1 h-4 min-w-4 rounded-full bg-spotify-green px-1 text-[9px] leading-4 text-black">
+                {item.badge}
+              </span>
+            )}
+          </button>
+        ))}
+      </div>
+    </nav>
   );
 };

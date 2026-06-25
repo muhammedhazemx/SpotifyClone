@@ -8,7 +8,7 @@ export const ThemeToggle: React.FC = () => {
   return (
     <button
       onClick={toggleTheme}
-      className="flex items-center justify-center p-2 rounded-full bg-spotify-surface hover:bg-spotify-surfaceHover border border-spotify-border text-spotify-muted hover:text-spotify-text transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-spotify-green theme-transition"
+      className="flex min-h-11 min-w-11 items-center justify-center rounded-full border border-spotify-border bg-spotify-surface text-spotify-muted transition-all duration-200 hover:bg-spotify-surfaceHover hover:text-spotify-text focus:outline-none focus:ring-2 focus:ring-spotify-green theme-transition sm:min-h-10 sm:min-w-10"
       aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
       title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
     >

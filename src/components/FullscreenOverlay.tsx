@@ -41,7 +41,7 @@ export const FullscreenOverlay: React.FC = () => {
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [isFullscreenOpen]);
+  }, [isFullscreenOpen, setIsFullscreenOpen]);
 
   if (!isFullscreenOpen || !currentTrack) return null;
 

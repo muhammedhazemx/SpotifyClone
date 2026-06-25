@@ -23,7 +23,7 @@ export const PlaylistView: React.FC = () => {
     if (id) {
       selectPlaylist(id);
     }
-  }, [id]);
+  }, [id, selectPlaylist]);
 
   const isUserPlaylist = userPlaylists.some(pl => pl.id === currentPlaylist.id);
 
@@ -59,10 +59,10 @@ export const PlaylistView: React.FC = () => {
 
       {/* Main Action Bar for User Playlist Optionals */}
       {isUserPlaylist && currentPlaylist.tracks.length > 0 && (
-        <div className="px-6 md:px-8 pt-4 flex items-center justify-end select-none">
+        <div className="flex items-center justify-end px-4 pt-4 select-none sm:px-6 md:px-8">
           <button
             onClick={handleDelete}
-            className="flex items-center gap-2 text-xs font-bold text-spotify-muted hover:text-red-500 transition-colors focus:outline-none"
+            className="flex min-h-11 items-center gap-2 rounded-full px-2 text-xs font-bold text-spotify-muted transition-colors hover:text-red-500 focus:outline-none focus:ring-1 focus:ring-spotify-green"
             aria-label="Delete playlist"
           >
             <Trash2 className="w-4 h-4" />
@@ -76,15 +76,15 @@ export const PlaylistView: React.FC = () => {
         <TrackTable />
       ) : (
         /* Empty Playlist State - Recommended Song Adder */
-        <div className="px-6 md:px-8 py-8 space-y-8 select-none">
+        <div className="space-y-8 px-4 py-8 select-none sm:px-6 md:px-8">
           <div className="flex flex-col items-center justify-center py-12 text-spotify-muted border-b border-spotify-border/40">
             <Music className="w-16 h-16 mb-4 stroke-1 opacity-55" />
             <h3 className="text-lg font-bold text-spotify-text">This playlist is empty</h3>
-            <p className="text-sm font-medium mt-1">Search or add recommended songs below to get started.</p>
+            <p className="mt-1 text-center text-sm font-medium">Search or add recommended songs below to get started.</p>
             {isUserPlaylist && (
               <button
                 onClick={handleDelete}
-                className="mt-6 flex items-center gap-2 text-xs font-bold text-red-500 hover:underline focus:outline-none"
+                className="mt-6 flex min-h-11 items-center gap-2 rounded-full px-2 text-xs font-bold text-red-500 hover:underline focus:outline-none focus:ring-1 focus:ring-spotify-green"
               >
                 <Trash2 className="w-4 h-4" />
                 <span>Delete empty playlist</span>
@@ -94,21 +94,21 @@ export const PlaylistView: React.FC = () => {
 
           {/* Inline Recommender Grid */}
           <div className="space-y-4 max-w-4xl">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
               <div>
                 <h3 className="text-xl font-bold">Let's add some songs</h3>
                 <p className="text-xs text-spotify-muted font-medium mt-0.5">Based on the title of this playlist</p>
               </div>
 
               {/* Rec Search Box */}
-              <div className="relative w-full max-w-xs">
+              <div className="relative w-full md:max-w-xs">
                 <Search className="absolute left-3 top-2.5 w-4 h-4 text-spotify-muted" />
                 <input
                   type="text"
                   placeholder="Search for more songs..."
                   value={recSearch}
                   onChange={(e) => setRecSearch(e.target.value)}
-                  className="w-full pl-9 pr-4 py-1.5 bg-spotify-surfaceHover border border-spotify-border text-xs text-spotify-text rounded-full focus:outline-none focus:ring-1 focus:ring-spotify-green theme-transition"
+                  className="min-h-11 w-full rounded-full border border-spotify-border bg-spotify-surfaceHover py-2 pl-9 pr-4 text-xs text-spotify-text focus:outline-none focus:ring-1 focus:ring-spotify-green theme-transition"
                 />
               </div>
             </div>
@@ -119,7 +119,7 @@ export const PlaylistView: React.FC = () => {
                 recommendedTracks.map((track) => (
                   <div
                     key={track.id}
-                    className="flex items-center justify-between p-2 hover:bg-spotify-surfaceHover rounded-md transition-colors"
+                    className="flex items-center justify-between gap-3 rounded-md p-2 transition-colors hover:bg-spotify-surfaceHover"
                   >
                     <div className="flex items-center gap-3 min-w-0">
                       <img
@@ -135,7 +135,7 @@ export const PlaylistView: React.FC = () => {
 
                     <button
                       onClick={() => addTrackToPlaylist(currentPlaylist.id, track)}
-                      className="flex items-center gap-1.5 px-4 py-1 border border-spotify-muted hover:border-spotify-text text-xs font-bold rounded-full transition-all active:scale-95 focus:outline-none"
+                      className="flex min-h-11 flex-shrink-0 items-center gap-1.5 rounded-full border border-spotify-muted px-4 py-1 text-xs font-bold transition-all hover:border-spotify-text active:scale-95 focus:outline-none focus:ring-1 focus:ring-spotify-green"
                     >
                       <Plus className="w-3.5 h-3.5" />
                       <span>Add</span>

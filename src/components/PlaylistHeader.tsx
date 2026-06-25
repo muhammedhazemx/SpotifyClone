@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { usePlayer } from '../hooks/usePlayer';
 import { useTheme } from '../hooks/useTheme';
 import { getGradientStyle } from '../lib/color';
@@ -9,16 +9,14 @@ export const PlaylistHeader: React.FC = () => {
   const { theme } = useTheme();
 
   const isUserPlaylist = userPlaylists.some(pl => pl.id === currentPlaylist.id);
-  const [isEditing, setIsEditing] = useState(false);
-  const [titleInput, setTitleInput] = useState(currentPlaylist.name);
-
-  useEffect(() => {
-    setTitleInput(currentPlaylist.name);
-    setIsEditing(false);
-  }, [currentPlaylist]);
+  const [editingPlaylistId, setEditingPlaylistId] = useState<string | null>(null);
+  const [titleDraft, setTitleDraft] = useState<{ playlistId: string; value: string } | null>(null);
+  const isEditing = editingPlaylistId === currentPlaylist.id;
+  const titleInput = titleDraft?.playlistId === currentPlaylist.id ? titleDraft.value : currentPlaylist.name;
 
   const handleRenameSubmit = () => {
-    setIsEditing(false);
+    setEditingPlaylistId(null);
+    setTitleDraft(null);
     if (titleInput.trim() && titleInput.trim() !== currentPlaylist.name) {
       renamePlaylist(currentPlaylist.id, titleInput.trim());
     }
@@ -28,9 +26,14 @@ export const PlaylistHeader: React.FC = () => {
     if (e.key === 'Enter') {
       handleRenameSubmit();
     } else if (e.key === 'Escape') {
-      setTitleInput(currentPlaylist.name);
-      setIsEditing(false);
+      setTitleDraft(null);
+      setEditingPlaylistId(null);
     }
+  };
+
+  const startEditing = () => {
+    setEditingPlaylistId(currentPlaylist.id);
+    setTitleDraft({ playlistId: currentPlaylist.id, value: currentPlaylist.name });
   };
 
   // Compute total duration of the playlist
@@ -51,10 +54,10 @@ export const PlaylistHeader: React.FC = () => {
   return (
     <div
       style={gradientStyle}
-      className="p-6 pt-16 pb-6 md:p-8 md:pt-24 md:pb-6 flex flex-col gap-6 md:flex-row md:items-end select-none theme-transition relative"
+      className="relative flex flex-col gap-5 p-4 pt-8 pb-6 select-none theme-transition sm:p-6 sm:pt-12 md:flex-row md:items-end md:p-8 md:pt-20"
     >
       {/* Playlist Cover Art */}
-      <div className="w-48 h-48 md:w-60 md:h-60 rounded-md overflow-hidden shadow-2xl flex-shrink-0 bg-spotify-surface border border-spotify-border group relative">
+      <div className="relative aspect-square w-36 flex-shrink-0 overflow-hidden rounded-md border border-spotify-border bg-spotify-surface shadow-2xl group sm:w-44 md:w-56 lg:w-60">
         <img
           src={currentPlaylist.coverUrl}
           alt={currentPlaylist.name}
@@ -74,20 +77,20 @@ export const PlaylistHeader: React.FC = () => {
             <input
               type="text"
               value={titleInput}
-              onChange={(e) => setTitleInput(e.target.value)}
+              onChange={(e) => setTitleDraft({ playlistId: currentPlaylist.id, value: e.target.value })}
               onBlur={handleRenameSubmit}
               onKeyDown={handleKeyDown}
               autoFocus
-              className="text-4xl md:text-7xl font-extrabold tracking-tight bg-black/40 border border-spotify-border rounded px-2 py-1 outline-none text-spotify-text w-full max-w-2xl focus:ring-1 focus:ring-spotify-green"
+              className="w-full max-w-2xl rounded border border-spotify-border bg-black/40 px-2 py-1 text-3xl font-extrabold tracking-tight text-spotify-text outline-none focus:ring-1 focus:ring-spotify-green sm:text-5xl lg:text-7xl"
               maxLength={30}
               aria-label="Rename playlist"
             />
           </div>
         ) : (
-          <div className="flex items-center gap-3 mb-4 group/title max-w-full">
+          <div className="mb-4 flex max-w-full items-center gap-2 group/title sm:gap-3">
             <h1
-              onClick={() => isUserPlaylist && setIsEditing(true)}
-              className={`text-4xl md:text-7xl font-extrabold tracking-tight select-text truncate max-w-full ${
+              onClick={() => isUserPlaylist && startEditing()}
+              className={`max-w-full truncate text-3xl font-extrabold tracking-tight select-text sm:text-5xl lg:text-7xl ${
                 isUserPlaylist ? 'cursor-pointer hover:underline' : ''
               }`}
               title={isUserPlaylist ? "Click to rename" : undefined}
@@ -96,8 +99,8 @@ export const PlaylistHeader: React.FC = () => {
             </h1>
             {isUserPlaylist && (
               <button
-                onClick={() => setIsEditing(true)}
-                className="opacity-0 group-hover/title:opacity-100 p-2 rounded-full hover:bg-black/30 text-spotify-muted hover:text-spotify-text transition-all focus:opacity-100 outline-none"
+                onClick={startEditing}
+                className="flex min-h-11 min-w-11 items-center justify-center rounded-full text-spotify-muted opacity-100 transition-all hover:bg-black/30 hover:text-spotify-text focus:opacity-100 focus:outline-none md:opacity-0"
                 aria-label="Edit playlist title"
               >
                 <Edit2 className="w-5 h-5" />
@@ -106,7 +109,7 @@ export const PlaylistHeader: React.FC = () => {
           </div>
         )}
         
-        <p className="text-sm font-semibold text-spotify-muted mb-4 max-w-2xl select-text leading-relaxed">
+        <p className="mb-4 max-w-2xl text-sm font-semibold leading-relaxed text-spotify-muted select-text">
           {currentPlaylist.description}
         </p>
         

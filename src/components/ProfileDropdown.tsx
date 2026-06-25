@@ -33,7 +33,7 @@ export const ProfileDropdown: React.FC = () => {
       {/* Profile Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center justify-center w-8 h-8 rounded-full bg-spotify-surface hover:bg-spotify-surfaceHover border border-spotify-border font-bold text-xs hover:scale-105 active:scale-95 transition-all text-spotify-text focus:outline-none focus:ring-2 focus:ring-spotify-green"
+        className="flex h-11 w-11 items-center justify-center rounded-full border border-spotify-border bg-spotify-surface text-xs font-bold text-spotify-text transition-all hover:scale-105 hover:bg-spotify-surfaceHover active:scale-95 focus:outline-none focus:ring-2 focus:ring-spotify-green sm:h-9 sm:w-9"
         aria-label="User profile menu"
         aria-expanded={isOpen}
       >
@@ -45,7 +45,7 @@ export const ProfileDropdown: React.FC = () => {
         <div className="absolute right-0 mt-2 w-48 rounded-md shadow-2xl bg-spotify-surface border border-spotify-border py-1 z-50 text-left select-none text-spotify-text text-sm font-semibold focus:outline-none">
           <button
             onClick={() => setIsOpen(false)}
-            className="w-full px-4 py-2.5 hover:bg-spotify-surfaceHover text-left flex items-center gap-2.5 transition-colors focus:outline-none focus:bg-spotify-surfaceHover"
+            className="flex min-h-11 w-full items-center gap-2.5 px-4 py-2.5 text-left transition-colors hover:bg-spotify-surfaceHover focus:bg-spotify-surfaceHover focus:outline-none"
           >
             <User className="w-4 h-4 text-spotify-muted" />
             <span>Profile</span>
@@ -53,7 +53,7 @@ export const ProfileDropdown: React.FC = () => {
           
           <button
             onClick={() => setIsOpen(false)}
-            className="w-full px-4 py-2.5 hover:bg-spotify-surfaceHover text-left flex items-center gap-2.5 transition-colors focus:outline-none focus:bg-spotify-surfaceHover"
+            className="flex min-h-11 w-full items-center gap-2.5 px-4 py-2.5 text-left transition-colors hover:bg-spotify-surfaceHover focus:bg-spotify-surfaceHover focus:outline-none"
           >
             <Settings className="w-4 h-4 text-spotify-muted" />
             <span>Settings</span>
@@ -64,7 +64,7 @@ export const ProfileDropdown: React.FC = () => {
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => setIsOpen(false)}
-            className="px-4 py-2.5 hover:bg-spotify-surfaceHover text-left flex items-center justify-between transition-colors focus:outline-none focus:bg-spotify-surfaceHover"
+            className="flex min-h-11 items-center justify-between px-4 py-2.5 text-left transition-colors hover:bg-spotify-surfaceHover focus:bg-spotify-surfaceHover focus:outline-none"
           >
             <span className="flex items-center gap-2.5">
               <ExternalLink className="w-4 h-4 text-spotify-muted" />
@@ -76,7 +76,7 @@ export const ProfileDropdown: React.FC = () => {
 
           <button
             onClick={() => setIsOpen(false)}
-            className="w-full px-4 py-2.5 hover:bg-spotify-surfaceHover text-left flex items-center gap-2.5 text-red-500 hover:text-red-400 transition-colors focus:outline-none focus:bg-spotify-surfaceHover"
+            className="flex min-h-11 w-full items-center gap-2.5 px-4 py-2.5 text-left text-red-500 transition-colors hover:bg-spotify-surfaceHover hover:text-red-400 focus:bg-spotify-surfaceHover focus:outline-none"
           >
             <LogOut className="w-4 h-4" />
             <span>Log out</span>

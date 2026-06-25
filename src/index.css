@@ -41,8 +41,9 @@
     @apply bg-spotify-black text-spotify-text font-sans antialiased overflow-hidden select-none;
     margin: 0;
     padding: 0;
-    height: 100vh;
-    width: 100vw;
+    min-height: 100vh;
+    min-height: 100dvh;
+    width: 100%;
   }
 
   /* Custom Scrollbar Styles */

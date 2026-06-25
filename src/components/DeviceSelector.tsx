@@ -33,7 +33,7 @@ export const DeviceSelector: React.FC = () => {
       {/* Device Toggle Icon */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`p-1.5 rounded-full transition-colors focus:outline-none hover:scale-105 active:scale-95 ${
+        className={`flex min-h-11 min-w-11 items-center justify-center rounded-full transition-colors hover:scale-105 active:scale-95 focus:outline-none focus:ring-1 focus:ring-spotify-green ${
           isOpen ? 'text-spotify-green' : 'text-spotify-muted hover:text-spotify-text'
         }`}
         aria-label="Connect to a device"
@@ -62,7 +62,7 @@ export const DeviceSelector: React.FC = () => {
             {/* Device 2 */}
             <button
               onClick={() => setIsOpen(false)}
-              className="flex items-center gap-3 w-full hover:text-spotify-green text-spotify-muted text-left transition-colors focus:outline-none"
+              className="flex min-h-11 w-full items-center gap-3 text-left text-spotify-muted transition-colors hover:text-spotify-green focus:outline-none focus:text-spotify-green"
             >
               <Smartphone className="w-5 h-5 flex-shrink-0" />
               <div className="min-w-0 flex-1">
@@ -74,7 +74,7 @@ export const DeviceSelector: React.FC = () => {
             {/* Device 3 */}
             <button
               onClick={() => setIsOpen(false)}
-              className="flex items-center gap-3 w-full hover:text-spotify-green text-spotify-muted text-left transition-colors focus:outline-none"
+              className="flex min-h-11 w-full items-center gap-3 text-left text-spotify-muted transition-colors hover:text-spotify-green focus:outline-none focus:text-spotify-green"
             >
               <Monitor className="w-5 h-5 flex-shrink-0" />
               <div className="min-w-0 flex-1">

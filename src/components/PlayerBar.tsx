@@ -20,13 +20,14 @@ export const PlayerBar: React.FC = () => {
   const isLiked = currentTrack ? likedTrackIds.includes(currentTrack.id) : false;
 
   return (
-    <footer className="h-player w-full bg-spotify-card border-t border-spotify-border px-4 flex items-center justify-between select-none text-spotify-text theme-transition z-20">
+    <footer className="z-20 w-full border-t border-spotify-border bg-spotify-card px-3 py-2 text-spotify-text select-none theme-transition sm:h-player sm:px-4 sm:py-0">
+      <div className="grid w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-2 sm:grid-cols-[minmax(0,1fr)_minmax(260px,1.2fr)_minmax(0,1fr)] sm:gap-4 sm:h-full">
       {/* 1. Track Info (Left) */}
-      <div className="flex items-center gap-4 w-[30%] min-w-[180px]">
+      <div className="flex min-w-0 items-center gap-3 sm:gap-4">
         {currentTrack ? (
           <>
             {/* Artwork */}
-            <div className="w-14 h-14 rounded overflow-hidden flex-shrink-0 bg-spotify-surface border border-spotify-border">
+            <div className="h-12 w-12 flex-shrink-0 overflow-hidden rounded border border-spotify-border bg-spotify-surface sm:h-14 sm:w-14">
               <img
                 src={currentTrack.artworkUrl}
                 alt={currentTrack.title}
@@ -47,7 +48,7 @@ export const PlayerBar: React.FC = () => {
             {/* Like button */}
             <button
               onClick={() => toggleLike(currentTrack.id)}
-              className={`focus:outline-none transition-all duration-200 hover:scale-105 ${
+              className={`min-h-11 min-w-11 rounded-full transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-1 focus:ring-spotify-green flex items-center justify-center ${
                 isLiked ? 'text-spotify-green' : 'text-spotify-muted hover:text-spotify-text'
               }`}
               aria-label={isLiked ? "Remove from Liked Songs" : "Save to Liked Songs"}
@@ -58,8 +59,8 @@ export const PlayerBar: React.FC = () => {
           </>
         ) : (
           <div className="flex items-center gap-4">
-            <div className="w-14 h-14 rounded bg-spotify-surface border border-spotify-border flex-shrink-0"></div>
-            <div>
+            <div className="h-12 w-12 flex-shrink-0 rounded border border-spotify-border bg-spotify-surface sm:h-14 sm:w-14"></div>
+            <div className="min-w-0">
               <h4 className="text-sm font-semibold text-spotify-muted">No track selected</h4>
             </div>
           </div>
@@ -67,17 +68,19 @@ export const PlayerBar: React.FC = () => {
       </div>
 
       {/* 2. Transport & Scrubber Controls (Center) */}
-      <div className="flex flex-col items-center gap-1.5 w-[40%] max-w-[600px] min-w-[280px]">
+      <div className="flex min-w-0 flex-col items-center gap-1.5 justify-self-end sm:w-full sm:max-w-[620px] sm:justify-self-center">
         <TransportControls />
-        <ProgressBar />
+        <div className="hidden w-full sm:block">
+          <ProgressBar />
+        </div>
       </div>
 
       {/* 3. Utility Controls (Right) */}
-      <div className="flex items-center gap-3 justify-end w-[30%] min-w-[180px]">
+      <div className="hidden min-w-0 items-center justify-end gap-2 xl:flex">
         {/* Queue Toggle Button */}
         <button
           onClick={() => setIsQueueOpen(!isQueueOpen)}
-          className={`p-1.5 rounded-full transition-colors focus:outline-none hover:scale-105 active:scale-95 hidden md:block ${
+          className={`min-h-11 min-w-11 rounded-full transition-colors focus:outline-none focus:ring-1 focus:ring-spotify-green hover:scale-105 active:scale-95 ${
             isQueueOpen ? 'text-spotify-green' : 'text-spotify-muted hover:text-spotify-text'
           }`}
           aria-label="Queue"
@@ -95,7 +98,7 @@ export const PlayerBar: React.FC = () => {
         {/* Fullscreen Button */}
         <button
           onClick={() => setIsFullscreenOpen(!isFullscreenOpen)}
-          className={`p-1.5 rounded-full transition-colors focus:outline-none hover:scale-105 active:scale-95 hidden md:block ${
+          className={`min-h-11 min-w-11 rounded-full transition-colors focus:outline-none focus:ring-1 focus:ring-spotify-green hover:scale-105 active:scale-95 flex items-center justify-center ${
             isFullscreenOpen ? 'text-spotify-green' : 'text-spotify-muted hover:text-spotify-text'
           }`}
           aria-label="Fullscreen player"
@@ -103,6 +106,10 @@ export const PlayerBar: React.FC = () => {
         >
           <Maximize2 className="w-4 h-4" />
         </button>
+      </div>
+      <div className="col-span-2 sm:hidden">
+        <ProgressBar />
+      </div>
       </div>
     </footer>
   );

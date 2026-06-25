@@ -88,13 +88,13 @@ export const TrackRow: React.FC<TrackRowProps> = ({
       tabIndex={0}
       role="row"
       aria-selected={isActive}
-      className={`group hover:bg-spotify-surfaceHover rounded-md transition-colors duration-150 cursor-pointer text-sm outline-none focus:bg-spotify-surfaceHover focus:ring-1 focus:ring-spotify-green relative ${
+      className={`group relative cursor-pointer rounded-md text-sm transition-colors duration-150 hover:bg-spotify-surfaceHover focus:bg-spotify-surfaceHover focus:outline-none focus:ring-1 focus:ring-spotify-green ${
         isActive ? 'bg-spotify-surfaceHover/55' : ''
       }`}
     >
       {/* 1. Track Number or Play/Pause Button */}
-      <td className="w-12 text-center py-2.5 rounded-l-md font-semibold text-spotify-muted">
-        <div className="flex items-center justify-center h-8 w-8 mx-auto">
+      <td className="w-10 rounded-l-md py-2 text-center font-semibold text-spotify-muted sm:w-12 sm:py-2.5">
+        <div className="mx-auto flex h-11 w-10 items-center justify-center sm:h-8 sm:w-8">
           {isHovered ? (
             isActive && isPlaying ? (
               <button
@@ -102,7 +102,7 @@ export const TrackRow: React.FC<TrackRowProps> = ({
                   e.stopPropagation();
                   onPause();
                 }}
-                className="text-spotify-text hover:text-white"
+                className="flex min-h-11 min-w-10 items-center justify-center text-spotify-text hover:text-white sm:min-h-0 sm:min-w-0"
                 aria-label={`Pause ${track.title} by ${track.artist}`}
               >
                 <Pause className="w-4 h-4 fill-current" />
@@ -113,7 +113,7 @@ export const TrackRow: React.FC<TrackRowProps> = ({
                   e.stopPropagation();
                   onPlay();
                 }}
-                className="text-spotify-text hover:text-white"
+                className="flex min-h-11 min-w-10 items-center justify-center text-spotify-text hover:text-white sm:min-h-0 sm:min-w-0"
                 aria-label={`Play ${track.title} by ${track.artist}`}
               >
                 <Play className="w-4 h-4 fill-current" />
@@ -136,8 +136,8 @@ export const TrackRow: React.FC<TrackRowProps> = ({
       </td>
 
       {/* 2. Title + Artist */}
-      <td className="py-2.5 pr-4 flex items-center gap-3">
-        <div className="w-10 h-10 rounded overflow-hidden flex-shrink-0 bg-spotify-surface border border-spotify-border">
+      <td className="flex min-w-0 items-center gap-2 py-2 pr-2 sm:gap-3 sm:py-2.5 sm:pr-4">
+        <div className="h-10 w-10 flex-shrink-0 overflow-hidden rounded border border-spotify-border bg-spotify-surface">
           <img src={track.artworkUrl} alt="" className="w-full h-full object-cover" loading="lazy" />
         </div>
         <div className="min-w-0 flex-1">
@@ -155,7 +155,7 @@ export const TrackRow: React.FC<TrackRowProps> = ({
       </td>
 
       {/* 3. Album */}
-      <td className="py-2.5 pr-4 hidden md:table-cell text-spotify-muted font-semibold truncate max-w-[150px] lg:max-w-[200px]">
+      <td className="hidden max-w-[150px] truncate py-2.5 pr-4 font-semibold text-spotify-muted md:table-cell lg:max-w-[200px]">
         <span className="hover:text-spotify-text cursor-pointer">{track.album}</span>
       </td>
 
@@ -165,16 +165,16 @@ export const TrackRow: React.FC<TrackRowProps> = ({
       </td>
 
       {/* 5. Heart / Like Button */}
-      <td className="py-2.5 w-12 text-center">
+      <td className="w-11 py-2 text-center sm:w-12 sm:py-2.5">
         <button
           onClick={(e) => {
             e.stopPropagation();
             onLikeToggle();
           }}
-          className={`focus:outline-none transition-all duration-200 hover:scale-105 ${
+          className={`inline-flex min-h-11 min-w-11 items-center justify-center rounded-full transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-1 focus:ring-spotify-green ${
             isLiked
               ? 'text-spotify-green'
-              : 'text-spotify-muted opacity-0 group-hover:opacity-100 hover:text-spotify-text focus:opacity-100'
+              : 'text-spotify-muted opacity-100 hover:text-spotify-text focus:opacity-100 sm:opacity-0 sm:group-hover:opacity-100'
           }`}
           aria-label={isLiked ? `Remove ${track.title} from Liked Songs` : `Save ${track.title} to Liked Songs`}
           aria-pressed={isLiked}
@@ -184,15 +184,15 @@ export const TrackRow: React.FC<TrackRowProps> = ({
       </td>
 
       {/* 6. Context Menu Options Button ("...") */}
-      <td className="py-2.5 w-12 text-center relative">
+      <td className="relative w-11 py-2 text-center sm:w-12 sm:py-2.5">
         <div ref={menuRef} className="playlist-menu inline-block">
           <button
             onClick={(e) => {
               e.stopPropagation();
               setIsMenuOpen(!isMenuOpen);
             }}
-            className={`focus:outline-none transition-all duration-200 hover:scale-105 text-spotify-muted hover:text-spotify-text ${
-              isMenuOpen ? 'text-spotify-text opacity-100' : 'opacity-0 group-hover:opacity-100 focus:opacity-100'
+            className={`inline-flex min-h-11 min-w-11 items-center justify-center rounded-full text-spotify-muted transition-all duration-200 hover:scale-105 hover:text-spotify-text focus:outline-none focus:ring-1 focus:ring-spotify-green ${
+              isMenuOpen ? 'text-spotify-text opacity-100' : 'opacity-100 focus:opacity-100 sm:opacity-0 sm:group-hover:opacity-100'
             }`}
             aria-label={`Show options for ${track.title}`}
             aria-expanded={isMenuOpen}
@@ -202,7 +202,7 @@ export const TrackRow: React.FC<TrackRowProps> = ({
 
           {/* Absolute Dropdown list */}
           {isMenuOpen && (
-            <div className="absolute right-0 mt-2 w-48 rounded-md shadow-2xl bg-spotify-surface border border-spotify-border py-1 z-50 text-left select-none text-spotify-text text-xs font-semibold focus:outline-none">
+            <div className="absolute right-0 z-50 mt-2 w-48 rounded-md border border-spotify-border bg-spotify-surface py-1 text-left text-xs font-semibold text-spotify-text shadow-2xl select-none focus:outline-none">
               <div className="px-3 py-1.5 border-b border-spotify-border text-[10px] text-spotify-muted uppercase tracking-wider">
                 Add to playlist
               </div>
@@ -231,7 +231,7 @@ export const TrackRow: React.FC<TrackRowProps> = ({
       </td>
 
       {/* 7. Duration */}
-      <td className="py-2.5 pr-4 w-16 text-right rounded-r-md text-spotify-muted font-semibold text-xs tracking-wider">
+      <td className="w-14 rounded-r-md py-2 pr-2 text-right text-xs font-semibold tracking-wider text-spotify-muted sm:w-16 sm:py-2.5 sm:pr-4">
         {formatTime(track.duration)}
       </td>
     </tr>

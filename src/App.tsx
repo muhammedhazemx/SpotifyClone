@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import { PlayerProvider, usePlayer } from './context/PlayerContext';
 import { ThemeProvider } from './context/ThemeContext';
-import { Sidebar } from './components/Sidebar';
+import { MobileNav, Sidebar } from './components/Sidebar';
 import { PlayerBar } from './components/PlayerBar';
 import { SearchBar } from './components/SearchBar';
 import { ThemeToggle } from './components/ThemeToggle';
@@ -44,20 +44,20 @@ const AppContent: React.FC = () => {
   const { isQueueOpen } = usePlayer();
 
   return (
-    <div className="flex flex-col h-screen w-screen overflow-hidden bg-spotify-black text-spotify-text font-sans theme-transition">
+    <div className="flex h-[100dvh] w-full flex-col overflow-hidden bg-spotify-black text-spotify-text font-sans theme-transition">
       {/* Upper Content Panel (Sidebar + Main Viewport + Queue Drawer) */}
       <div className="flex flex-1 overflow-hidden min-h-0">
         {/* Fixed Left Sidebar */}
         <Sidebar />
 
         {/* Scrollable Main Content Panel */}
-        <main className="flex-1 flex flex-col bg-spotify-dark overflow-y-auto relative rounded-lg m-2 ml-0 border border-spotify-border theme-transition">
+        <main className="relative m-1 flex min-w-0 flex-1 flex-col overflow-y-auto rounded-lg border border-spotify-border bg-spotify-dark theme-transition lg:m-2 lg:ml-0">
           {/* Floating Sticky Header */}
-          <header className="sticky top-0 h-16 px-6 md:px-8 flex items-center justify-between z-30 bg-spotify-dark/75 backdrop-blur-md border-b border-spotify-border/40 select-none theme-transition">
+          <header className="sticky top-0 z-30 flex min-h-16 flex-wrap items-center justify-between gap-3 border-b border-spotify-border/40 bg-spotify-dark/75 px-3 py-2 backdrop-blur-md select-none theme-transition sm:flex-nowrap sm:px-5 md:px-8">
             <HeaderControls />
 
             {/* Right Header Controls: ThemeToggle + ProfileDropdown */}
-            <div className="flex items-center gap-4">
+            <div className="flex flex-shrink-0 items-center gap-2 sm:gap-4">
               <ThemeToggle />
               <ProfileDropdown />
             </div>
@@ -77,6 +77,8 @@ const AppContent: React.FC = () => {
 
       {/* Fixed Full Width Bottom Player Bar */}
       <PlayerBar />
+
+      <MobileNav />
 
       {/* Fullscreen Player Overlay */}
       <FullscreenOverlay />

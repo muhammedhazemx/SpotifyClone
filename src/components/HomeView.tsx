@@ -55,16 +55,16 @@ export const HomeView: React.FC = () => {
   };
 
   return (
-    <div className="flex-1 px-6 md:px-8 py-6 space-y-8 select-none text-spotify-text">
+    <div className="flex-1 space-y-7 px-4 py-5 text-spotify-text select-none sm:px-6 md:px-8 md:py-6">
       {/* Dynamic Fading Background Header Overlay */}
       <div className="absolute top-0 left-0 right-0 h-64 bg-gradient-to-b from-[#1e1b4b]/20 to-transparent pointer-events-none z-0"></div>
 
       <div className="relative z-10 space-y-6">
         {/* Time-of-day Greeting */}
-        <h2 className="text-3xl font-extrabold tracking-tight">{getGreetingText()}</h2>
+        <h2 className="text-2xl font-extrabold tracking-tight sm:text-3xl">{getGreetingText()}</h2>
 
         {/* Shortcuts 2x3 Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 lg:gap-4">
           {shortcuts.map((shortcut) => {
             const isCurrentShortcutPlaying = isPlaying && currentTrack && (
               (shortcut.id === 'liked' && likedTrackIds.includes(currentTrack.id)) ||
@@ -75,7 +75,7 @@ export const HomeView: React.FC = () => {
               <div
                 key={shortcut.id}
                 onClick={() => navigate(`/playlist/${shortcut.id}`)}
-                className="group relative flex items-center bg-spotify-surface/40 hover:bg-spotify-surfaceHover/80 rounded-md overflow-hidden transition-all duration-300 cursor-pointer select-none"
+                className="group relative flex min-h-20 cursor-pointer items-center overflow-hidden rounded-md bg-spotify-surface/40 transition-all duration-300 hover:bg-spotify-surfaceHover/80 select-none"
               >
                 {/* Cover art image */}
                 <div className="w-20 h-20 flex-shrink-0 bg-spotify-surface border-r border-spotify-border/40">
@@ -91,7 +91,7 @@ export const HomeView: React.FC = () => {
                   {/* Floating Green Play Button */}
                   <button
                     onClick={(e) => handlePlaylistPlay(e, shortcut.id)}
-                    className="w-10 h-10 rounded-full bg-spotify-green hover:bg-[#1fdf64] shadow-md hover:scale-105 active:scale-95 flex items-center justify-center transition-all duration-200 opacity-0 group-hover:opacity-100 focus:opacity-100 translate-y-1 group-hover:translate-y-0 outline-none"
+                    className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full bg-spotify-green opacity-100 shadow-md transition-all duration-200 hover:scale-105 hover:bg-[#1fdf64] active:scale-95 focus:opacity-100 focus:outline-none md:h-10 md:w-10 md:translate-y-1 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100"
                     aria-label={`Play ${shortcut.name}`}
                   >
                     {isCurrentShortcutPlaying ? (
@@ -112,14 +112,14 @@ export const HomeView: React.FC = () => {
         {/* Shelf 1: Recently Played */}
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-2xl font-bold">Recently played</h3>
+            <h3 className="text-xl font-bold sm:text-2xl">Recently played</h3>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 md:grid-cols-4 lg:grid-cols-5 lg:gap-6">
             {allPlaylists.slice(0, 5).map((playlist) => (
               <div
                 key={`recent-${playlist.id}`}
                 onClick={() => navigate(`/playlist/${playlist.id}`)}
-                className="group bg-spotify-card/40 hover:bg-spotify-cardHover rounded-lg p-4 transition-all duration-300 cursor-pointer relative flex flex-col min-w-0"
+                className="group relative flex min-w-0 cursor-pointer flex-col rounded-lg bg-spotify-card/40 p-3 transition-all duration-300 hover:bg-spotify-cardHover sm:p-4"
               >
                 {/* Cover art */}
                 <div className="relative aspect-square w-full rounded-md overflow-hidden bg-spotify-surface mb-4 shadow-md">
@@ -131,7 +131,7 @@ export const HomeView: React.FC = () => {
                   {/* Floating Play Button */}
                   <button
                     onClick={(e) => handlePlaylistPlay(e, playlist.id)}
-                    className="absolute bottom-2 right-2 w-12 h-12 rounded-full bg-spotify-green hover:bg-[#1fdf64] shadow-lg flex items-center justify-center transition-all duration-200 opacity-0 group-hover:opacity-100 focus:opacity-100 translate-y-2 group-hover:translate-y-0 hover:scale-105 active:scale-95 outline-none z-10"
+                    className="absolute bottom-2 right-2 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-spotify-green opacity-100 shadow-lg transition-all duration-200 hover:scale-105 hover:bg-[#1fdf64] active:scale-95 focus:opacity-100 focus:outline-none md:h-12 md:w-12 md:translate-y-2 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100"
                     aria-label={`Play ${playlist.name}`}
                   >
                     <Play className="w-5 h-5 text-black fill-current ml-0.5" />
@@ -148,15 +148,15 @@ export const HomeView: React.FC = () => {
         {/* Shelf 2: Made for you */}
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-2xl font-bold">Made for you</h3>
+            <h3 className="text-xl font-bold sm:text-2xl">Made for you</h3>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 md:grid-cols-4 lg:grid-cols-5 lg:gap-6">
             {/* Displaying some static mixes */}
             {[...allPlaylists].reverse().slice(0, 5).map((playlist) => (
               <div
                 key={`m4u-${playlist.id}`}
                 onClick={() => navigate(`/playlist/${playlist.id}`)}
-                className="group bg-spotify-card/40 hover:bg-spotify-cardHover rounded-lg p-4 transition-all duration-300 cursor-pointer relative flex flex-col min-w-0"
+                className="group relative flex min-w-0 cursor-pointer flex-col rounded-lg bg-spotify-card/40 p-3 transition-all duration-300 hover:bg-spotify-cardHover sm:p-4"
               >
                 <div className="relative aspect-square w-full rounded-md overflow-hidden bg-spotify-surface mb-4 shadow-md">
                   <img
@@ -166,7 +166,7 @@ export const HomeView: React.FC = () => {
                   />
                   <button
                     onClick={(e) => handlePlaylistPlay(e, playlist.id)}
-                    className="absolute bottom-2 right-2 w-12 h-12 rounded-full bg-spotify-green hover:bg-[#1fdf64] shadow-lg flex items-center justify-center transition-all duration-200 opacity-0 group-hover:opacity-100 focus:opacity-100 translate-y-2 group-hover:translate-y-0 hover:scale-105 active:scale-95 outline-none z-10"
+                    className="absolute bottom-2 right-2 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-spotify-green opacity-100 shadow-lg transition-all duration-200 hover:scale-105 hover:bg-[#1fdf64] active:scale-95 focus:opacity-100 focus:outline-none md:h-12 md:w-12 md:translate-y-2 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100"
                     aria-label={`Play ${playlist.name}`}
                   >
                     <Play className="w-5 h-5 text-black fill-current ml-0.5" />
@@ -183,14 +183,14 @@ export const HomeView: React.FC = () => {
         {userPlaylists.length > 0 && (
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <h3 className="text-2xl font-bold">Your Playlists</h3>
+              <h3 className="text-xl font-bold sm:text-2xl">Your Playlists</h3>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 md:grid-cols-4 lg:grid-cols-5 lg:gap-6">
               {userPlaylists.slice(0, 5).map((playlist) => (
                 <div
                   key={`user-${playlist.id}`}
                   onClick={() => navigate(`/playlist/${playlist.id}`)}
-                  className="group bg-spotify-card/40 hover:bg-spotify-cardHover rounded-lg p-4 transition-all duration-300 cursor-pointer relative flex flex-col min-w-0"
+                  className="group relative flex min-w-0 cursor-pointer flex-col rounded-lg bg-spotify-card/40 p-3 transition-all duration-300 hover:bg-spotify-cardHover sm:p-4"
                 >
                   <div className="relative aspect-square w-full rounded-md overflow-hidden bg-spotify-surface mb-4 shadow-md">
                     <img
@@ -200,7 +200,7 @@ export const HomeView: React.FC = () => {
                     />
                     <button
                       onClick={(e) => handlePlaylistPlay(e, playlist.id)}
-                      className="absolute bottom-2 right-2 w-12 h-12 rounded-full bg-spotify-green hover:bg-[#1fdf64] shadow-lg flex items-center justify-center transition-all duration-200 opacity-0 group-hover:opacity-100 focus:opacity-100 translate-y-2 group-hover:translate-y-0 hover:scale-105 active:scale-95 outline-none z-10"
+                      className="absolute bottom-2 right-2 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-spotify-green opacity-100 shadow-lg transition-all duration-200 hover:scale-105 hover:bg-[#1fdf64] active:scale-95 focus:opacity-100 focus:outline-none md:h-12 md:w-12 md:translate-y-2 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100"
                       aria-label={`Play ${playlist.name}`}
                     >
                       <Play className="w-5 h-5 text-black fill-current ml-0.5" />
